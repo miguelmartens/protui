@@ -90,7 +90,9 @@ type PublicKeyInfo struct {
 // upstream does not store. A blank key yields unknown metadata and no error,
 // since an item legitimately may not have one yet.
 func Describe(publicKey string) (PublicKeyInfo, error) {
-	trimmed := strings.TrimSpace(publicKey)
+	// A valid key contains no control characters, so this is a no-op for real
+	// input and neutralises a hostile blob before it is parsed or displayed.
+	trimmed := strings.TrimSpace(Sanitize(publicKey))
 	if trimmed == "" {
 		return PublicKeyInfo{Algorithm: AlgorithmUnknown}, nil
 	}
@@ -103,8 +105,9 @@ func Describe(publicKey string) (PublicKeyInfo, error) {
 	return PublicKeyInfo{
 		Algorithm:   algorithmFromKeyType(pub.Type()),
 		Fingerprint: ssh.FingerprintSHA256(pub),
-		Comment:     comment,
-		Bits:        bitsOf(pub),
+		// The comment is whatever bytes the key file carried after the blob.
+		Comment: Sanitize(comment),
+		Bits:    bitsOf(pub),
 	}, nil
 }
 
@@ -115,7 +118,7 @@ func Describe(publicKey string) (PublicKeyInfo, error) {
 // copy is still usable, with unknown metadata, so one malformed key cannot
 // break a listing.
 func (k Key) WithPublicKey(publicKey string) (Key, error) {
-	k.PublicKey = strings.TrimSpace(publicKey)
+	k.PublicKey = strings.TrimSpace(Sanitize(publicKey))
 
 	info, err := Describe(k.PublicKey)
 	k.Algorithm = info.Algorithm
