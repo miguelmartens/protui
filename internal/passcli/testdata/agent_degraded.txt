@@ -1,0 +1,7 @@
+Status:   degraded (process is running but socket is missing)
+PID:      54321
+Socket:   /Users/example/.proton-pass/ssh-agent.sock (not found)
+
+Hint:     the agent process is alive but the socket file is gone.
+          Run 'ssh-agent daemon stop' then 'ssh-agent daemon start'.
+PID file: /Users/example/.proton-pass/ssh-agent.pid

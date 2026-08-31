@@ -1,0 +1,27 @@
+{
+  "items": [
+    {
+      "id": "aXRlbS1lZDI1NTE5",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Active",
+      "flags": [],
+      "create_time": "2026-01-23T19:48:23",
+      "modify_time": "2026-02-04T08:15:00",
+      "title": "laptop",
+      "item_type": "ssh_key"
+    },
+    {
+      "id": "aXRlbS1yc2E=",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Active",
+      "flags": ["SkipHealthCheck"],
+      "create_time": "2025-11-02T11:00:09",
+      "modify_time": "2025-11-02T11:00:09",
+      "folder_id": "Zm9sZGVyLTE=",
+      "title": "deploy key",
+      "item_type": "ssh_key"
+    }
+  ]
+}

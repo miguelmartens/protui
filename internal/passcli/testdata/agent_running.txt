@@ -1,0 +1,12 @@
+Status:   running
+PID:      54321
+Socket:   /Users/example/.proton-pass/ssh-agent.sock
+
+To connect to the agent, set SSH_AUTH_SOCK:
+  export SSH_AUTH_SOCK=/Users/example/.proton-pass/ssh-agent.sock
+PID file: /Users/example/.proton-pass/ssh-agent.pid
+Log file: /Users/example/.proton-pass/ssh-agent.log
+
+Last 2 log line(s):
+  agent listening
+  loaded 3 keys

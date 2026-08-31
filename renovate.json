@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "labels": ["dependencies"],
+  "postUpdateOptions": ["gomodTidy"],
+  "packageRules": [
+    {
+      "description": "bubbletea, bubbles, lipgloss and the charmbracelet/x helpers are cut against one another. One PR per release wave keeps the TUI stack on a combination upstream has shipped together, instead of pairing a new bubbles with an old bubbletea.",
+      "matchManagers": ["gomod"],
+      "matchPackageNames": ["github.com/charmbracelet/**"],
+      "groupName": "charmbracelet"
+    },
+    {
+      "description": "The go directive is protui's minimum supported Go version, and the README and install instructions state it. Raising it decides who can still build the project, so it waits for approval on the dependency dashboard rather than arriving as a PR.",
+      "matchDatasources": ["golang-version"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "package.json carries prettier as a caret range and no lockfile is committed, so an in-range release would never open a PR and the recorded version would drift from the one make format resolves. Bump the range to keep the two in step.",
+      "matchManagers": ["npm"],
+      "rangeStrategy": "bump"
+    }
+  ]
+}

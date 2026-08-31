@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "aXRlbS1mdXR1cmU=",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Active",
+      "flags": [],
+      "create_time": "2026-03-01T09:30:00",
+      "modify_time": "2026-03-01T09:30:00",
+      "title": "future key",
+      "item_type": "ssh_key",
+      "rotation_policy": "90d",
+      "nested_novelty": { "a": [1, 2, 3] }
+    }
+  ],
+  "folders": [{ "folder_id": "Zg==", "folder_name": "keys", "parent_id": null }]
+}

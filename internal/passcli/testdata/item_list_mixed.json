@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "id": "aXRlbS1sb2dpbg==",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Active",
+      "flags": [],
+      "create_time": "2026-01-23T19:48:23",
+      "modify_time": "2026-01-23T19:48:23",
+      "title": "some login",
+      "item_type": "login"
+    },
+    {
+      "id": "aXRlbS1zc2g=",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Trashed",
+      "flags": [],
+      "create_time": "2026-01-23T19:48:23",
+      "modify_time": "2026-01-23T19:48:23",
+      "title": "old key",
+      "item_type": "ssh_key"
+    },
+    {
+      "id": "aXRlbS1ub3Rl",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Active",
+      "flags": [],
+      "create_time": "2026-01-23T19:48:23",
+      "modify_time": "2026-01-23T19:48:23",
+      "title": "a note",
+      "item_type": "note"
+    }
+  ]
+}
