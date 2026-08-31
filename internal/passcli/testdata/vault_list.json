@@ -1,0 +1,14 @@
+{
+  "vaults": [
+    {
+      "name": "Personal",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "share_id": "c2hhcmUtcGVyc29uYWw="
+    },
+    {
+      "name": "Work",
+      "vault_id": "dmF1bHQtd29yaw==",
+      "share_id": "c2hhcmUtd29yaw=="
+    }
+  ]
+}

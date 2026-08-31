@@ -1,0 +1,21 @@
+# Build artefacts. The binary pattern is anchored to the repository root:
+# unanchored, `protui` would also match the cmd/protui source directory.
+/bin/
+/dist/
+/protui
+
+# Test and coverage output
+coverage.out
+coverage.html
+*.test
+
+# Node, present only for prettier
+node_modules/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store

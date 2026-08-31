@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": "",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Active",
+      "flags": [],
+      "create_time": "2026-01-23T19:48:23",
+      "modify_time": "2026-01-23T19:48:23",
+      "title": "nameless",
+      "item_type": "ssh_key"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+Status:   stopped
+PID file: /Users/example/.proton-pass/ssh-agent.pid (not found)

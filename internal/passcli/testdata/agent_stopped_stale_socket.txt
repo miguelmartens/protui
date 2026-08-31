@@ -1,0 +1,7 @@
+Status:   stopped (process died, stale socket file present)
+PID:      54321 (not running)
+Socket:   /Users/example/.proton-pass/ssh-agent.sock (stale)
+
+Hint:     run 'ssh-agent daemon start' to start the daemon.
+          The stale socket file will be cleaned up automatically.
+PID file: /Users/example/.proton-pass/ssh-agent.pid

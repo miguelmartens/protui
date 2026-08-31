@@ -1,0 +1,46 @@
+version: "2"
+
+run:
+  timeout: 3m
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - bodyclose
+    - misspell
+    - revive
+    - unconvert
+    - goconst
+    - nakedret
+    - errorlint
+
+  settings:
+    revive:
+      rules:
+        - name: exported
+          disabled: false
+    # No locale is set on purpose. Enforcing UK spelling would flag Go and
+    # third-party identifiers that are US-spelled by convention and cannot be
+    # renamed: serde's Serialize trait, lipgloss.Color, lipgloss.Center. Left
+    # unset, misspell catches genuine typos and leaves the prose alone.
+    misspell: {}
+
+  exclusions:
+    rules:
+      # Fixture-heavy table tests repeat short literals by design.
+      - path: _test\.go
+        linters:
+          - goconst
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/miguelmartens/protui

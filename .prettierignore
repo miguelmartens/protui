@@ -1,0 +1,15 @@
+# Go is formatted by gofmt, not prettier.
+*.go
+go.mod
+go.sum
+
+# Build artefacts and dependencies
+bin/
+dist/
+node_modules/
+coverage.out
+coverage.html
+
+# Fixtures are captured pass-cli output and must stay byte-for-byte as
+# recorded; reformatting them would defeat their purpose.
+internal/passcli/testdata/
