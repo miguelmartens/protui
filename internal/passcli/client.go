@@ -24,6 +24,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/miguelmartens/protui/internal/keys"
 )
 
 // Binary is the upstream executable protui drives.
@@ -100,6 +102,13 @@ func New() (*Client, error) {
 // writes advisory lines to stderr, so the two streams are kept apart and only
 // stdout is ever decoded.
 func (c *Client) exec(ctx context.Context, extraEnv []string, args ...string) ([]byte, []byte, error) {
+	// gosec flags every exec with non-constant arguments. Running pass-cli
+	// with arguments is what this package exists for, and it is safe here for
+	// reasons that hold by construction: the binary is resolved by LookPath
+	// rather than supplied, no shell is involved so there is nothing to quote
+	// or inject, and every argument is a separate argv element built by
+	// protui. User-supplied values reach it only as values, never as flags.
+	//nolint:gosec // G204: see above.
 	cmd := exec.CommandContext(ctx, c.binary, args...)
 
 	// Suppress the auto-update probe on every invocation: it adds latency and
@@ -157,7 +166,9 @@ func cleanStderr(stderr []byte) string {
 		if line == "" || strings.HasPrefix(line, "Reading password from") {
 			continue
 		}
-		kept = append(kept, strings.TrimPrefix(line, "Error: "))
+		// Upstream echoes item titles into some errors, so this is display
+		// input from outside protui like any other.
+		kept = append(kept, keys.Sanitize(strings.TrimPrefix(line, "Error: ")))
 	}
 
 	return strings.Join(kept, "; ")

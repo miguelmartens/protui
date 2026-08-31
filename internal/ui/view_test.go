@@ -345,3 +345,47 @@ func TestDetailScrolling(t *testing.T) {
 		t.Errorf("offset %d carried over to another key", moved.detailOffset)
 	}
 }
+
+// TestViewNeverEmitsEscapesFromKeyMaterial covers the injection path that this
+// package owns. A public key's trailing comment is arbitrary bytes from
+// whoever wrote the key, and WithPublicKey sanitises it on the way in.
+//
+// Titles and vault names are sanitised where they enter, in internal/passcli —
+// see TestParsersSanitizeHostileText there. Sanitising cannot happen at render
+// time: by then lipgloss has wrapped the text in its own SGR escapes, and
+// stripping those would remove protui's own styling along with the attack.
+func TestViewNeverEmitsEscapesFromKeyMaterial(t *testing.T) {
+	payloads := map[string]string{
+		"clear screen":     "\x1b[2J",
+		"cursor home":      "\x1b[H",
+		"window title":     "\x1b]0;pwned\x07",
+		"clipboard OSC 52": "\x1b]52;c;cHduZWQ=\x07",
+		"bidi override":    "\u202ereversed\u202c",
+		"bell":             "\x07",
+	}
+
+	for name, payload := range payloads {
+		t.Run(name, func(t *testing.T) {
+			model := loaded(t, 120, 40)
+
+			next, _ := model.Update(publicKeyLoadedMsg{
+				shareID:   "share-1",
+				itemID:    "item-1",
+				publicKey: testPublicKey + payload,
+			})
+
+			out := next.(Model).View()
+
+			// The key itself must still render; only the instruction goes.
+			if !strings.Contains(out, "laptop") {
+				t.Error("sanitising ate the surrounding text as well as the escape")
+			}
+
+			for _, forbidden := range []string{"\x1b]", "\x1b[2J", "\x1b[H", "\x07", "\u202e"} {
+				if strings.Contains(out, forbidden) {
+					t.Errorf("view emits %q from injected key material", forbidden)
+				}
+			}
+		})
+	}
+}

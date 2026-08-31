@@ -25,6 +25,7 @@ they were all made on the same day, during initial design.
 | [Separate trashing from permanent deletion](separate-trashing-from-permanent-deletion.md)           | `d` is recoverable, `D` is not, and the prompts differ accordingly.      |
 | [Keep I/O out of the update loop](keep-io-out-of-the-update-loop.md)                                | Every `pass-cli` call is a `tea.Cmd`, so the UI never freezes.           |
 | [Navigate like vim, act with mnemonics](navigate-like-vim-act-with-mnemonics.md)                    | Real `gg` and `Ctrl-f/b/d/u`; actions stay lazygit-style single letters. |
+| [Sanitize text before drawing it](sanitize-text-before-drawing-it.md)                               | Shared vault titles are untrusted; escapes reach the terminal otherwise. |
 | [Tolerate unknown JSON fields but validate required ones](tolerate-unknown-json-fields.md)          | Additive upstream changes are harmless; subtractive ones must be loud.   |
 | [Fail before taking over the terminal](fail-before-taking-over-the-terminal.md)                     | A missing session is reported in a terminal that still works.            |
 

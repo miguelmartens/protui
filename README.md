@@ -136,6 +136,18 @@ separate field, because that is the only place upstream keeps it.
 - **The UI displays public keys and fingerprints only.**
 - Fingerprints and algorithms are computed locally from the public key, so
   deriving them requires no additional secret access.
+- **Text from Proton Pass is sanitised before it is drawn.** Item titles, vault
+  names and key comments are user-authored, and Proton Pass supports sharing
+  items and vaults, so they can have been written by somebody else. Drawn
+  unfiltered into a terminal such a string is not data but instructions: it can
+  clear the screen, rewrite the window title, or — via OSC 52, which xterm,
+  kitty, iTerm2, WezTerm and foot all honour — **write to your clipboard**,
+  which matters here because putting a key on the clipboard is what protui is
+  for. Terminal escape sequences and bidirectional overrides are stripped at
+  the point the text enters, in `internal/passcli`.
+- **Dependencies are scanned in CI** with
+  [govulncheck](https://go.dev/blog/govulncheck), and `gosec` runs as part of
+  the lint step.
 
 ## How it fits together
 
@@ -227,6 +239,15 @@ be checked against a light and a dark terminal before they ship.
 v1 handles SSH keys only: listing, generating, viewing, copying, trashing,
 deleting, and the SSH agent daemon. Logins, notes, TOTP, aliases, secret
 injection and vault management are out of scope — use `pass-cli` directly.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). It covers the setup, the checks, and the
+handful of security properties a change must not break.
+
+Vulnerabilities go through [SECURITY.md](SECURITY.md), not the issue tracker.
+
+Changes are recorded in [CHANGELOG.md](CHANGELOG.md).
 
 ## Licence
 

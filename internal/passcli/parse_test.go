@@ -4,8 +4,10 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
+	"unicode"
 
 	"github.com/miguelmartens/protui/internal/keys"
 )
@@ -392,5 +394,94 @@ func TestCleanStderr(t *testing.T) {
 				t.Errorf("cleanStderr() = %q, want %q", got, test.want)
 			}
 		})
+	}
+}
+
+// TestParsersSanitizeHostileText covers the boundary at which text from Proton
+// Pass becomes text protui will draw.
+//
+// Item titles and vault names are user-authored, and Proton Pass supports
+// sharing both items and vaults, so either can have been written by somebody
+// else. Drawn unfiltered into a terminal they stop being data: ESC [ 2 J
+// clears the screen, and OSC 52 writes the system clipboard on xterm, kitty,
+// iTerm2, WezTerm and foot \u2014 which is precisely what protui's copy action
+// is for, so a hostile title could replace what a user believes they copied.
+//
+// This is the choke point, and it has to be: sanitising cannot be deferred to
+// render time, because by then lipgloss has wrapped the text in its own SGR
+// escapes and stripping those would remove protui's styling along with the
+// attack.
+func TestParsersSanitizeHostileText(t *testing.T) {
+	t.Run("item titles", func(t *testing.T) {
+		parsed, err := parseItemList(
+			fixture(t, "item_list_hostile_title.json"),
+			keys.Vault{Name: "Personal", ShareID: "share-1"},
+		)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(parsed) != 1 {
+			t.Fatalf("got %d keys, want 1", len(parsed))
+		}
+
+		assertNoEscapes(t, "title", parsed[0].Title)
+
+		// The readable part survives; only the instruction is removed.
+		if !strings.Contains(parsed[0].Title, "innocent") {
+			t.Errorf("title = %q, want it to keep its visible text", parsed[0].Title)
+		}
+	})
+
+	t.Run("vault names", func(t *testing.T) {
+		parsed, err := parseVaultList(fixture(t, "vault_list_hostile_name.json"))
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(parsed) != 1 {
+			t.Fatalf("got %d vaults, want 1", len(parsed))
+		}
+
+		assertNoEscapes(t, "vault name", parsed[0].Name)
+
+		if !strings.Contains(parsed[0].Name, "Personal") {
+			t.Errorf("name = %q, want it to keep its visible text", parsed[0].Name)
+		}
+	})
+
+	t.Run("agent status", func(t *testing.T) {
+		status := parseAgentStatus([]byte(
+			"Status:   running\x1b[2J\nPID:      42\x07\nSocket:   /tmp/a\x1b]0;x\x07.sock\n",
+		))
+
+		// Classification still reads the raw value, so it is unaffected.
+		if status.State != AgentRunning {
+			t.Errorf("state = %q, want %q", status.State, AgentRunning)
+		}
+
+		assertNoEscapes(t, "detail", status.Detail)
+		assertNoEscapes(t, "pid", status.PID)
+		assertNoEscapes(t, "socket", status.Socket)
+	})
+
+	t.Run("stderr", func(t *testing.T) {
+		// Upstream echoes item titles into some of its errors, so its stderr
+		// is outside text like any other.
+		assertNoEscapes(t, "stderr", cleanStderr(
+			[]byte("Error: no such item \x1b[2J\x1b]52;c;cHduZWQ=\x07"),
+		))
+	})
+}
+
+// assertNoEscapes fails if value carries anything a terminal would act on.
+func assertNoEscapes(t *testing.T, field, value string) {
+	t.Helper()
+
+	for _, r := range value {
+		if unicode.IsControl(r) {
+			t.Errorf("%s contains control rune %U: %q", field, r, value)
+		}
+		if r >= '\u202a' && r <= '\u202e' || r >= '\u2066' && r <= '\u2069' {
+			t.Errorf("%s contains bidi override %U: %q", field, r, value)
+		}
 	}
 }

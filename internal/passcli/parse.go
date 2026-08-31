@@ -33,7 +33,9 @@ func parseVaultList(stdout []byte) ([]keys.Vault, error) {
 		}
 
 		vaults = append(vaults, keys.Vault{
-			Name:    entry.Name,
+			// Vault names are user-authored and can arrive from a shared
+			// vault, so they are sanitised before anything renders them.
+			Name:    keys.Sanitize(entry.Name),
 			ShareID: entry.ShareID,
 			VaultID: entry.VaultID,
 		})
@@ -78,11 +80,12 @@ func parseItemList(stdout []byte, vault keys.Vault) ([]keys.Key, error) {
 		}
 
 		result = append(result, keys.Key{
-			ID:         item.ID,
-			ShareID:    shareID,
-			VaultID:    item.VaultID,
-			VaultName:  vault.Name,
-			Title:      item.Title,
+			ID:        item.ID,
+			ShareID:   shareID,
+			VaultID:   item.VaultID,
+			VaultName: vault.Name,
+			// Titles are user-authored and shareable: untrusted display input.
+			Title:      keys.Sanitize(item.Title),
 			State:      parseState(item.State),
 			Algorithm:  keys.AlgorithmUnknown,
 			CreatedAt:  item.CreateTime.Time,
@@ -128,12 +131,13 @@ func parseAgentStatus(stdout []byte) AgentStatus {
 
 		switch key {
 		case "Status":
+			// Classify on the raw value, display the sanitised one.
 			status.State = agentStateOf(value)
-			status.Detail = value
+			status.Detail = keys.Sanitize(value)
 		case "PID":
-			status.PID = value
+			status.PID = keys.Sanitize(value)
 		case "Socket":
-			status.Socket = value
+			status.Socket = keys.Sanitize(value)
 		}
 	}
 

@@ -78,7 +78,7 @@ func (c *Client) PublicKey(ctx context.Context, shareID, itemID string) (string,
 		return "", err
 	}
 
-	return strings.TrimSpace(string(stdout)), nil
+	return keys.Sanitize(strings.TrimSpace(string(stdout))), nil
 }
 
 // GenerateRequest describes a key to generate.

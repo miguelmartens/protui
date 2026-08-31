@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": "aXRlbS1ob3N0aWxl",
+      "share_id": "c2hhcmUtcGVyc29uYWw=",
+      "vault_id": "dmF1bHQtcGVyc29uYWw=",
+      "state": "Active",
+      "flags": [],
+      "create_time": "2026-03-01T09:30:00",
+      "modify_time": "2026-03-01T09:30:00",
+      "title": "innocent\u001b[2J\u001b]52;c;cHduZWQ=\u0007\u202ereversed\u202c",
+      "item_type": "ssh_key"
+    }
+  ]
+}
