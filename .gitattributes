@@ -16,6 +16,7 @@ Makefile    text eol=lf
 .gitignore  text eol=lf
 .gitattributes text eol=lf
 .editorconfig  text eol=lf
+.prettierrc    text eol=lf
 
 # Test fixtures must round-trip byte for byte; CRLF would change what the
 # parsers see.

@@ -27,7 +27,7 @@ nobody asked for. Option 2 inherits that surface with worse ergonomics.
 
 The cost of option 3 is that protui inherits `pass-cli`'s output format, which
 is not a documented stable contract (see
-[record-the-upstream-schema-before-implementing](record-the-upstream-schema-before-implementing.md)),
+[record-the-upstream-schema-before-implementing](0002-record-the-upstream-schema-before-implementing.md)),
 and one process spawn per operation.
 
 ## Decision
@@ -54,9 +54,9 @@ surface is out of reach without upstream changes.
 Every operation costs a process spawn, so latency is bounded below by
 `pass-cli` startup. This is why deriving the metadata for a list of keys is
 rate-limited rather than fanned out without limit — see
-[derive-key-metadata-from-public-keys](derive-key-metadata-from-public-keys.md).
+[derive-key-metadata-from-public-keys](0006-derive-key-metadata-from-public-keys.md).
 
 We are exposed to upstream output changes, which is what
-[isolate-pass-cli-behind-one-package](isolate-pass-cli-behind-one-package.md)
-and [tolerate-unknown-json-fields](tolerate-unknown-json-fields.md) exist to
+[isolate-pass-cli-behind-one-package](0003-isolate-pass-cli-behind-one-package.md)
+and [tolerate-unknown-json-fields](0012-tolerate-unknown-json-fields.md) exist to
 contain.

@@ -14,14 +14,27 @@ You need:
 - **Node** — only for `prettier`, fetched on demand via `npx`.
 - **`golangci-lint`** — optional. The lint target skips it with a note when it
   is absent, but CI runs it, so installing it saves a round trip.
+- **[`pre-commit`](https://pre-commit.com/#install)** — optional, and only
+  needed if you want the hooks below.
 
 ```sh
 git clone https://github.com/miguelmartens/protui
 cd protui
 make check   # tidy, lint, test — the same checks CI runs
+make hooks   # optional: run those checks on every commit
 ```
 
 `make help` lists every target.
+
+### The pre-commit hooks
+
+`make hooks` installs [`.pre-commit-config.yaml`](.pre-commit-config.yaml),
+which runs `gofmt`, `prettier`, `go vet`, `golangci-lint` and `go test` before
+each commit. Every hook shells out to a Makefile target, so the hooks and
+`make check` cannot drift apart.
+
+Hooks are scoped by what you touched — a Markdown-only commit does not run the
+Go checks — and `git commit --no-verify` skips them when you need it.
 
 ## Before you open a pull request
 
@@ -54,7 +67,7 @@ has tests that will fail if you do.
 - **Text from Proton Pass is sanitised before it is displayed.** Titles, vault
   names and comments can come from a shared vault, so they are untrusted. This
   happens at the parse boundary and cannot be moved to render time — see
-  [the decision record](docs/adr/sanitize-text-before-drawing-it.md) for why.
+  [the decision record](docs/adr/0011-sanitize-text-before-drawing-it.md) for why.
 
 ## If you touch the parsing layer
 

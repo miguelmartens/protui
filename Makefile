@@ -50,6 +50,18 @@ cover:
 fmt:
 	$(GO) fmt ./...
 
+## fmt-check: verify gofmt formatting without writing
+# gofmt -l exits 0 whether or not it listed anything, so the listing itself has
+# to be what fails.
+.PHONY: fmt-check
+fmt-check:
+	@unformatted="$$(gofmt -l .)"; \
+	if [ -n "$$unformatted" ]; then \
+		echo "These files need gofmt (run 'make fmt'):"; \
+		echo "$$unformatted"; \
+		exit 1; \
+	fi
+
 ## format: format Markdown, JSON and YAML with prettier
 .PHONY: format
 format:
@@ -61,8 +73,10 @@ format-check:
 	npx --yes prettier --check .
 
 ## lint: vet Go sources, then check formatting of both
+# fmt-check is listed explicitly rather than left to golangci-lint's gofmt
+# formatter, which does not run when golangci-lint is not installed.
 .PHONY: lint
-lint: vet lint-go format-check
+lint: fmt-check vet lint-go format-check
 
 .PHONY: vet
 vet:
@@ -87,6 +101,18 @@ tidy:
 ## check: everything CI runs
 .PHONY: check
 check: tidy lint test
+
+## hooks: install the git pre-commit hooks
+# Unlike golangci-lint this does not degrade to a note: asking for the hooks
+# and silently not getting them is worse than being told to install the tool.
+.PHONY: hooks
+hooks:
+	@if command -v pre-commit >/dev/null 2>&1; then \
+		pre-commit install; \
+	else \
+		echo "pre-commit not installed (see https://pre-commit.com/#install)"; \
+		exit 1; \
+	fi
 
 ## clean: remove build artefacts
 .PHONY: clean

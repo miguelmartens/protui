@@ -55,7 +55,7 @@ output against real `ssh-keygen` values.
 Listing costs one call for the vault plus one per key. This is the main
 contributor to load time and the reason for the concurrency bound. It is a
 direct consequence of
-[read-public-keys-with-a-field-scoped-view](read-public-keys-with-a-field-scoped-view.md):
+[read-public-keys-with-a-field-scoped-view](0004-read-public-keys-with-a-field-scoped-view.md):
 the cheaper bulk call is the one that returns private keys.
 
 The comment is only as durable as the public key line. Rewriting that line

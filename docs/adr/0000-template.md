@@ -1,6 +1,6 @@
 # Short present-tense imperative phrase describing the decision
 
-- **Status:** proposed | accepted | deprecated | superseded by `[title](file.md)`
+- **Status:** proposed | accepted | deprecated | superseded by `[title](0000-title.md)`
 - **Date:** YYYY-MM-DD
 
 ## Context
