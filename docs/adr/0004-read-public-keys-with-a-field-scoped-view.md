@@ -49,7 +49,7 @@ remembering to avoid a field.
 It costs one subprocess per key rather than one per item batch. The list call
 returns no key material at all, so algorithm and fingerprint need a separate
 fetch per item — see
-[derive-key-metadata-from-public-keys](derive-key-metadata-from-public-keys.md).
+[derive-key-metadata-from-public-keys](0006-derive-key-metadata-from-public-keys.md).
 
 The field-scoped output is bare text, not JSON, so it is handled as a trimmed
 string rather than decoded.

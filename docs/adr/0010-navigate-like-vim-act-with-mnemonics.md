@@ -78,7 +78,7 @@ binding would have been a synonym for `j`.
 `D` means "the same as `d`, but irreversible", which is a TUI convention rather
 than a vim one — in vim `D` is `d$`. Kept because it reads correctly here and
 nothing competes for it; see
-[separate-trashing-from-permanent-deletion](separate-trashing-from-permanent-deletion.md).
+[separate-trashing-from-permanent-deletion](0008-separate-trashing-from-permanent-deletion.md).
 
 `a`, `r`, `q` and `?` also mean other things in vim (append, replace character,
 record macro, search backward). They are kept because a read-only list offers

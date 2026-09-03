@@ -76,7 +76,7 @@ Actions follow lazygit and k9s — one mnemonic letter each:
 There is no `dd` or `yy`: vim's doubling exists to disambiguate an operator
 from a motion, and a list has one object under the cursor and no motions. The
 reasoning is in
-[the keymap decision record](docs/adr/navigate-like-vim-act-with-mnemonics.md).
+[the keymap decision record](docs/adr/0010-navigate-like-vim-act-with-mnemonics.md).
 
 Keys from every vault are listed together, with the vault shown per row.
 

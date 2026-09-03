@@ -60,10 +60,10 @@ protui's guarantees, and where they are enforced:
 
 The reasoning behind each, including what was rejected, is in
 [`docs/adr/`](docs/adr/README.md) — particularly
-[read public keys with a field-scoped view](docs/adr/read-public-keys-with-a-field-scoped-view.md),
-[pass passphrases through the environment](docs/adr/pass-passphrases-through-the-environment.md)
+[read public keys with a field-scoped view](docs/adr/0004-read-public-keys-with-a-field-scoped-view.md),
+[pass passphrases through the environment](docs/adr/0005-pass-passphrases-through-the-environment.md)
 and
-[sanitize text before drawing it](docs/adr/sanitize-text-before-drawing-it.md).
+[sanitize text before drawing it](docs/adr/0011-sanitize-text-before-drawing-it.md).
 
 Every guarantee has tests asserting it, including that no constructed argument
 list contains the word `private`, and that hostile item titles cannot emit

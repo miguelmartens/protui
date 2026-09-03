@@ -6,7 +6,7 @@
 ## Context
 
 Having chosen to
-[wrap pass-cli](wrap-pass-cli-instead-of-the-proton-api.md), protui's
+[wrap pass-cli](0001-wrap-pass-cli-instead-of-the-proton-api.md), protui's
 correctness now depends on an output format that upstream does not treat as a
 contract. Two things follow from that:
 

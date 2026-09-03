@@ -40,7 +40,7 @@ program can be quit during a slow load.
 
 Errors arrive as data. A vault failure is a field on `keysLoadedMsg`, which is
 what makes independent per-vault handling possible — see
-[fan-out-item-listing-per-vault](fan-out-item-listing-per-vault.md).
+[fan-out-item-listing-per-vault](0007-fan-out-item-listing-per-vault.md).
 
 State transitions are explicit. Anything conceptually "in progress" needs a
 model field, because the work is happening elsewhere: outstanding vault count,

@@ -10,35 +10,37 @@ the choice cost.
 
 ## The log
 
-Ordered roughly from the foundational to the specific, not chronologically —
-they were all made on the same day, during initial design.
+Numbered roughly from the foundational to the specific rather than
+chronologically — 0001 through 0013 were all decided on the same day, during
+initial design. Records added later take the next free number.
 
-| Decision                                                                                            | In short                                                                 |
-| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [Wrap pass-cli instead of the Proton API](wrap-pass-cli-instead-of-the-proton-api.md)               | Drive the official binary; implement no crypto of our own.               |
-| [Record the upstream schema before implementing](record-the-upstream-schema-before-implementing.md) | `pass-cli` JSON is not a contract, so write down what we verified.       |
-| [Isolate pass-cli behind one package](isolate-pass-cli-behind-one-package.md)                       | One package execs; the security rules live where they can be tested.     |
-| [Read public keys with a field-scoped view](read-public-keys-with-a-field-scoped-view.md)           | The obvious call returns private keys, so never make it.                 |
-| [Pass passphrases through the environment](pass-passphrases-through-the-environment.md)             | argv is world-readable, and `--password` would prompt on the TTY.        |
-| [Derive key metadata from public keys](derive-key-metadata-from-public-keys.md)                     | Upstream stores no algorithm, fingerprint, or comment field.             |
-| [Fan out item listing per vault](fan-out-item-listing-per-vault.md)                                 | `item list` cannot span vaults; one failure must not blank the list.     |
-| [Separate trashing from permanent deletion](separate-trashing-from-permanent-deletion.md)           | `d` is recoverable, `D` is not, and the prompts differ accordingly.      |
-| [Keep I/O out of the update loop](keep-io-out-of-the-update-loop.md)                                | Every `pass-cli` call is a `tea.Cmd`, so the UI never freezes.           |
-| [Navigate like vim, act with mnemonics](navigate-like-vim-act-with-mnemonics.md)                    | Real `gg` and `Ctrl-f/b/d/u`; actions stay lazygit-style single letters. |
-| [Sanitize text before drawing it](sanitize-text-before-drawing-it.md)                               | Shared vault titles are untrusted; escapes reach the terminal otherwise. |
-| [Tolerate unknown JSON fields but validate required ones](tolerate-unknown-json-fields.md)          | Additive upstream changes are harmless; subtractive ones must be loud.   |
-| [Fail before taking over the terminal](fail-before-taking-over-the-terminal.md)                     | A missing session is reported in a terminal that still works.            |
+| Decision                                                                                                 | In short                                                                 |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [Wrap pass-cli instead of the Proton API](0001-wrap-pass-cli-instead-of-the-proton-api.md)               | Drive the official binary; implement no crypto of our own.               |
+| [Record the upstream schema before implementing](0002-record-the-upstream-schema-before-implementing.md) | `pass-cli` JSON is not a contract, so write down what we verified.       |
+| [Isolate pass-cli behind one package](0003-isolate-pass-cli-behind-one-package.md)                       | One package execs; the security rules live where they can be tested.     |
+| [Read public keys with a field-scoped view](0004-read-public-keys-with-a-field-scoped-view.md)           | The obvious call returns private keys, so never make it.                 |
+| [Pass passphrases through the environment](0005-pass-passphrases-through-the-environment.md)             | argv is world-readable, and `--password` would prompt on the TTY.        |
+| [Derive key metadata from public keys](0006-derive-key-metadata-from-public-keys.md)                     | Upstream stores no algorithm, fingerprint, or comment field.             |
+| [Fan out item listing per vault](0007-fan-out-item-listing-per-vault.md)                                 | `item list` cannot span vaults; one failure must not blank the list.     |
+| [Separate trashing from permanent deletion](0008-separate-trashing-from-permanent-deletion.md)           | `d` is recoverable, `D` is not, and the prompts differ accordingly.      |
+| [Keep I/O out of the update loop](0009-keep-io-out-of-the-update-loop.md)                                | Every `pass-cli` call is a `tea.Cmd`, so the UI never freezes.           |
+| [Navigate like vim, act with mnemonics](0010-navigate-like-vim-act-with-mnemonics.md)                    | Real `gg` and `Ctrl-f/b/d/u`; actions stay lazygit-style single letters. |
+| [Sanitize text before drawing it](0011-sanitize-text-before-drawing-it.md)                               | Shared vault titles are untrusted; escapes reach the terminal otherwise. |
+| [Tolerate unknown JSON fields but validate required ones](0012-tolerate-unknown-json-fields.md)          | Additive upstream changes are harmless; subtractive ones must be loud.   |
+| [Fail before taking over the terminal](0013-fail-before-taking-over-the-terminal.md)                     | A missing session is reported in a terminal that still works.            |
 
 ## Writing one
 
-Copy [`template.md`](template.md). It follows
+Copy [`0000-template.md`](0000-template.md). It follows
 [Michael Nygard's format](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions):
 context, decision, consequences.
 
-File names are a **present-tense imperative verb phrase**, lowercase with
-dashes, matching how commit messages read: `wrap-pass-cli-instead-of-the-proton-api.md`,
-not `0001-passcli.md`. There are no numeric prefixes — ordering lives in the
-table above, where it can be curated.
+File names are a four-digit number, then a **present-tense imperative verb
+phrase**, lowercase with dashes, matching how commit messages read:
+`0001-wrap-pass-cli-instead-of-the-proton-api.md`, not `0001-passcli.md`. Take
+the next unused number, and never reuse one — a superseded record keeps its
+number and stays in place.
 
 ## What earns a record
 
